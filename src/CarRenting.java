@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 //import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 
 public class CarRenting extends Application {
@@ -41,6 +42,9 @@ public class CarRenting extends Application {
         this.stage.setTitle("Car Renting");
         this.stage.setScene(sceneStart);
         //this.stage.setScene(sceneEmployer);
+        this.stage.setOnCloseRequest((WindowEvent we) -> {
+        	JPAHandleDB.finish();
+        });
         this.stage.show();
     }
 
