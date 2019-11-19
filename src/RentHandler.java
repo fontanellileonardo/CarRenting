@@ -2,9 +2,15 @@
 import java.time.*;
 import java.util.*;
 
+import javafx.stage.WindowEvent;
+
 
 public class RentHandler {
     
+	public RentHandler() {
+		JPAHandleDB.openConnection();
+	}
+	
     //register method
     public String register(User regUser) {
     	int ret;
@@ -239,5 +245,9 @@ public class RentHandler {
     	} else {
     		return false;
     	}
+    }
+    
+    public void closeConnections() {
+        JPAHandleDB.finish();
     }
 }

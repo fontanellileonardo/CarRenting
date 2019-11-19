@@ -36,12 +36,7 @@ public class JPAHandleDB {
 	
 	// Open the connection with the DB
 	public static void openConnection() {
-		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
-		try {
-			factory = Persistence.createEntityManagerFactory("CarRenting");
-		} catch (ServiceException ex) {
-			System.err.println("Unable to establish a connection to MySQL database");
-		}
+		factory = DBConnection.getInstance().factory;
 	}
 	
 	/* Create new object. 
