@@ -1,5 +1,6 @@
 import java.sql.Date;
 import java.util.List;
+import java.util.logging.Level;
 
 import javax.persistence.*;
 import org.hibernate.exception.ConstraintViolationException;
@@ -23,7 +24,19 @@ public class JPAHandleDB {
 	private static String selectCarActiveReservations = "SELECT r FROM Reservation r WHERE r.car = :car AND r.pickUpDate > :actualDate";
 	private static String selectCustomerReservations = "SELECT r FROM Reservation r WHERE r.user = :user";
 
+	/*
 	static {
+		try {
+			factory = Persistence.createEntityManagerFactory("CarRenting");
+		} catch (ServiceException ex) {
+			System.err.println("Unable to establish a connection to MySQL database");
+		}
+	}
+	*/
+	
+	// Open the connection with the DB
+	public static void openConnection() {
+		java.util.logging.Logger.getLogger("org.hibernate").setLevel(Level.SEVERE);
 		try {
 			factory = Persistence.createEntityManagerFactory("CarRenting");
 		} catch (ServiceException ex) {
