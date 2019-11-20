@@ -11,14 +11,14 @@ public class RentHandler {
 		JPAHandleDB.openConnection();
 	}
 	
-    //register method
+    // Register method
     public String register(User regUser) {
     	int ret;
         String outcome = "";
         if(regUser!=null) {
         	if(regUser.getFiscalCode().equals("") == false && regUser.getNickName().equals("") == false && regUser.getName().equals("") == false && regUser.getSurname().equals("") == false && 
         			regUser.getEmail().equals("") == false && regUser.getPassword().equals("") == false) {
-        		//1) se l'utente esiste gi�, 2) database error, 0) inserimento riuscito
+        		//1) user already exists, 2) database error, 0) success
                 ret = JPAHandleDB.create(regUser);
                 switch (ret){
                     case 0:
@@ -42,13 +42,13 @@ public class RentHandler {
         
         } 
             
-    //login method
+    // Login method
     public String login(User loggedUser){
         String outcome = "";
         int ret;
         if(loggedUser!=null) {
         	if(loggedUser.getEmail().equals("") == false && loggedUser.getPassword() != null) {
-        		//1) se l'utente non esiste, 2) database error, 0) login riuscito
+        		///1) user doen't exists 2) database error, 0) success
         		ret = JPAHandleDB.logIn(loggedUser);
                 switch (ret){
                     case 0:
@@ -70,13 +70,15 @@ public class RentHandler {
         outcome = "OOps! You didn't insert "+'\n'+"        the login fields";
         return outcome;
     }
-    // employer interface method
+    
+    // Insert a new car
     public String insertCar(Car car) {
         String outcome = "";
         int ret;
         if(car!=null) {
         	if(car.getLicensePlate().equals("") == false && car.getVendor().equals("") == false) {
-        		//1) se esiste già una car con quella targa -> controllo se è stata rimossa e la inserisco di nuovo, 2) database error, 0) inserimento riuscito
+        		// 1) the car already exists -> check if it is removed, if it is it is insert again
+        		// 2) database error, 0) success
         		ret = JPAHandleDB.create(car);
                 switch (ret){
                         case 0:
@@ -138,18 +140,21 @@ public class RentHandler {
     	}
     }
 
+    // Get all the feedbacks
     public List<Feedback> showFeedbacks() {
         System.out.println("Feedbacks updated");
         List<Feedback> feedbacks = JPAHandleDB.selectAllFeedbacks();
         return feedbacks;
     }
     
+    // Get all the feedbacks according to their mark (if mark = 3 -> all feedback with mark = 1,2, and 3)
     public List<Feedback> showFeedbacks(int mark) {
         System.out.println("Feedbacks updated");
         List<Feedback> feedbacks = JPAHandleDB.selectAllFeedbacks(mark);
         return feedbacks;
     }
     
+    // Get all the customers
     public List<User> showCustomers(){
     	List<User> customers = JPAHandleDB.selectAllCustomers();
     	return customers;
@@ -180,7 +185,7 @@ public class RentHandler {
     	return reservations;
     }
     
-    // delete the reservation selected 
+    // Delete the reservation selected 
     public boolean delete(Reservation reservation) {
         boolean succ = JPAHandleDB.delete(Reservation.class,reservation.getId());
         if(succ) {
@@ -192,6 +197,7 @@ public class RentHandler {
         return succ;
     }
     
+    // Takes all the machines that are available and that have not been deleted from the system
     public List<Car> showAvailableCar(LocalDate pickUpDate, LocalDate deliveryDate, String locality, String seats, StringBuilder out) {
     	int numSeats = Integer.parseInt(seats);
         List<Car> carList = JPAHandleDB.findAvailableCars(Utils.localDateToSqlDate(pickUpDate), Utils.localDateToSqlDate(deliveryDate), 
@@ -208,6 +214,7 @@ public class RentHandler {
         return carList;
     }
     
+    // Get all the cars
     public List<Car> showAllCars(){
     	List<Car> carList = JPAHandleDB.selectAllCars();
     	return carList;
@@ -235,7 +242,7 @@ public class RentHandler {
                     return outcome;
             }                
     }
-    
+    // Add a new Feedback
     public boolean addFeedback(User user, String comment, String mark) {
     	int intMark = Integer.parseInt(mark);
     	Feedback feedback = new Feedback(intMark, comment,Utils.getCurrentSqlDate(), user);
@@ -247,6 +254,7 @@ public class RentHandler {
     	}
     }
     
+    // Close the connection with the DB
     public void closeConnections() {
         JPAHandleDB.finish();
     }

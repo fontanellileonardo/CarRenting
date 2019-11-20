@@ -23,16 +23,6 @@ public class JPAHandleDB {
 	private static String selectAllLicensePlates = "SELECT c.licensePlate FROM Car c";
 	private static String selectCarActiveReservations = "SELECT r FROM Reservation r WHERE r.car = :car AND r.pickUpDate > :actualDate";
 	private static String selectCustomerReservations = "SELECT r FROM Reservation r WHERE r.user = :user";
-
-	/*
-	static {
-		try {
-			factory = Persistence.createEntityManagerFactory("CarRenting");
-		} catch (ServiceException ex) {
-			System.err.println("Unable to establish a connection to MySQL database");
-		}
-	}
-	*/
 	
 	// Open the connection with the DB
 	public static void openConnection() {
@@ -76,6 +66,7 @@ public class JPAHandleDB {
 		return 0;
 	}
 	
+	// Fetch the object
 	public static <T> Object read(Class<T> entity, Object id) {
 		System.out.println("Getting a new object");
 		Object o = null;
@@ -93,6 +84,7 @@ public class JPAHandleDB {
 		return o;
 	}
 	
+	// Update the object
 	public static boolean update(Object o) {
 		System.out.println("Update an object");
 		try {
@@ -112,6 +104,7 @@ public class JPAHandleDB {
 		return true;
 	}
 	
+	// Delete the object
 	public static <T> boolean delete(Class<T> entity, Object id) {
 		System.out.println("Delete an object");
 		try {
@@ -132,18 +125,24 @@ public class JPAHandleDB {
 		return true;
 	}
 	
+	// Check if the user exists in the DB. 
+	// Return: 0 -> success, 1 -> the user doens't exist, 2 -> DB Error
 	public static int logIn(User user) {
 		int result = 1;
 		User retrievedUser = null;
 		try {
+			// Check if there is the connection with the DB
+
 			if(factory == null)
 				return 2;
+			// Try to get the user
 			entityManager = factory.createEntityManager();
 			TypedQuery<User> query = entityManager.createQuery(findUser, User.class);
 			query.setParameter("email", user.getEmail());
 			query.setParameter("password", user.getPassword());
 			query.setParameter("customer", user.getCustomer());
 			retrievedUser = query.getSingleResult();
+			// Set the user object
 			user.setFiscalCode(retrievedUser.getFiscalCode());
 			user.setNickName(retrievedUser.getNickName());
 			user.setName(retrievedUser.getName());
@@ -170,9 +169,11 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all the LicensePlates
 	public static List<String> showLicensePlates() {
 		List<String> result = null;
 		try {
+			// Check if there is the connection with the DB
 			if(factory == null)
 				return null;
 			entityManager = factory.createEntityManager();
@@ -188,9 +189,11 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all the customers
 	public static List<User> selectAllCustomers() {
 		List<User> result = null;
 		try {
+			// Check if there is the connection with the DB
 			if(factory == null)
 				return null;
 			entityManager = factory.createEntityManager();
@@ -206,9 +209,11 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all the Reservations
 	public static List<Reservation> selectReservations() {
 		List<Reservation> result = null;
 		try {
+			// Check if there is the connection with the DB
 			if(factory == null)
 				return null;
 			entityManager = factory.createEntityManager();
@@ -224,15 +229,19 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all car's reservation
 	public static List<Reservation> selectReservations(String licensePlate) {
 		List<Reservation> result = null;
 		try {
+			// Check if there is the connection with the DB
 			if(factory == null)
 				return null;
+			// Get the car obj
 			Car selectedCar = (Car) read(Car.class, licensePlate);
 			entityManager = factory.createEntityManager();
 			TypedQuery<Reservation> query = entityManager.createQuery(selectCarReservations, Reservation.class);
 			query.setParameter("car", selectedCar);
+			// Get the car's reservation
 			result = query.getResultList();
 		} catch (Exception ex) {
 			System.err.println("Exception during reservations selection: " + ex.getMessage());
@@ -244,6 +253,7 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all customer's reservation
 	public static List<Reservation> selectReservations(User user) {
 		List<Reservation> result = null;
 		try {
@@ -268,6 +278,7 @@ public class JPAHandleDB {
 		return selectAllFeedbacks(maxMark);
 	}
 	
+	// Get all the feedbacks having a specific mark
 	public static List<Feedback> selectAllFeedbacks(int minMark) {
 		List<Feedback> result = null;
 		try {
@@ -287,6 +298,7 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all the available cars
 	public static List<Car> findAvailableCars(Date arrival, Date departure, String loc, int seats){
 		List<Car> result = null;
 		try {
@@ -314,6 +326,7 @@ public class JPAHandleDB {
 		return result;
 	}
 	
+	// Get all the active reservations (active = the car was taken but not yet returned )
 	public static int selectActiveReservation(Reservation r) {
 		List<Reservation> result = null;
 		try {
@@ -339,22 +352,7 @@ public class JPAHandleDB {
 			return 1;
 	}
 	
-	/*
-	public static int create(Reservation r) { 
-		int reservation = selectActiveReservation(r);
-		if (reservation == 1) {
-			System.err.println("It's not permitted to book more than one car at a time");
-			return 1;
-		}
-		else if (reservation == 2){
-			return 2;
-		}
-		int result = create((Object) r);
-		return result;
-	}
-	*/
-	
-	// Eugenia
+	// Get all the cars
 	public static List<Car> selectAllCars() {
 		List<Car> result = null;
 		try {
@@ -373,8 +371,7 @@ public class JPAHandleDB {
 		return result;
 	}
 	
-	//Eugenia
-	// Find all the reservations giving a specific Car
+	// Get all the reservations giving a specific Car
 	public static List <Reservation> selectReservations(Car car) {
 		List <Reservation> reservations = null;
 		try {
@@ -394,7 +391,8 @@ public class JPAHandleDB {
 		return reservations;
 	}
 	
-	// This function returns 1 if there is a reservation for the car, 0 if there isn't and 2 if there is an error in the DB
+	// This function returns 1 if exists a reservation for a specific car, 
+	// 0 if there isn't and 2 if there is an error in the DB
 	public static int existsCarActiveReservations(Car car) {
 		int result = 2;
 		try {
@@ -419,8 +417,9 @@ public class JPAHandleDB {
 		return result;
 	}
 	
-	// Eugenia
-	// Delete can be fail because: a customer have the car (RentHandler has to check if is it true), error in the DB
+	// Delete an existing car
+	// Delete can be fail because: a customer have the car (RentHandler has to check if is it true) or is already deleted
+	// or there is an error in the DB
 	public static boolean delete(Car car) {
 		boolean result = false;
 		try {
@@ -433,6 +432,7 @@ public class JPAHandleDB {
 		return result;
 	}
 		
+	// Close the connection
 	public static void finish() {
 		if(factory != null)
 			factory.close();

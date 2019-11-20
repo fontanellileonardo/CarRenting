@@ -155,7 +155,7 @@ public class EmployerInterface {
         errorMsgDeletion.setFill(Color.RED);
 //    	------ TABLES ------
         tableFeedback.setTableFeedbackStyle();
-        tableUser.setTableUserStyle(); //tabella User
+        tableUser.setTableUserStyle();
         tableCar.setTableCarStyle();
         tableReservation.setTableReservationStyle(); 
 //		------ BUTTONS ------
@@ -190,7 +190,6 @@ public class EmployerInterface {
     	// "initialization" phase
     	tableCar.carListUpdate(rh.showAllCars());
     	
-    	
     	if(firstOpen) {
     		filterReservation.getItems().addAll(rh.retrieveAllLicensePlates());
     		firstOpen = false;
@@ -202,11 +201,7 @@ public class EmployerInterface {
         logOutButton.setOnAction((ActionEvent e)-> {
             errorMsgInsertion.setText("");
             errorMsgDeletion.setText("");
-            clearAll();
-            
-            //remove the table present at the logout moment. Every type of panel related to a specific 
-            //TableView is always at index 1 in the list of nodes assigned to dxPanel
-            dxPanel.getChildren().remove(1);   
+            clearAll();  
           
     		table = Utils.CAR_MANAGER;
     		tableChoose.setValue("Car Manager");
@@ -344,7 +339,10 @@ public class EmployerInterface {
     
     // reset the fields in the Employer Interface
     public void clearAll() {
-       
+    	//remove the table present at the logout moment. Every type of panel related to a specific 
+        //TableView is always at index 1 in the list of nodes assigned to dxPanel
+        dxPanel.getChildren().remove(1); 
+        dxPanel.getChildren().addAll(carPanel);
         fieldLicensePlate.clear();
         fieldVendor.clear();
         fieldLocation.setValue("Firenze");
