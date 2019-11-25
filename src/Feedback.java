@@ -3,7 +3,6 @@ import javax.persistence.*;
 import javafx.beans.property.*;
 
 @Entity
-
 public class Feedback {
 	private long id;
 	private final SimpleIntegerProperty mark;
@@ -64,7 +63,6 @@ public class Feedback {
 				fetch=FetchType.EAGER,
 				cascade = {}
 				)
-	//@Column(name = "User")
 	public User getUser() {
 		return user.get();
 	}

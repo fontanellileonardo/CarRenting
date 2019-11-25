@@ -203,10 +203,8 @@ public class EmployerInterface {
             errorMsgDeletion.setText("");
         	//remove the table present at the logout moment. Every type of panel related to a specific 
             //TableView is always at index 1 in the list of nodes assigned to dxPanel
-            if(table != Utils.CAR_MANAGER) {
+            if(table != Utils.CAR_MANAGER)
                 dxPanel.getChildren().remove(1); 
-                dxPanel.getChildren().addAll(carPanel);
-            }  
             clearAll();
     		table = Utils.CAR_MANAGER;
     		tableChoose.setValue("Car Manager");
