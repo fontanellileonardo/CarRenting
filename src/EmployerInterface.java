@@ -299,7 +299,10 @@ public class EmployerInterface {
                 	//Insert the new car also in the list used for the reservations filter
                 	filterReservation.getItems().add(car.getLicensePlate()); 
                     clearAll();
-                } else 
+                } 
+                if(outcome.contentEquals("Updated!")) 
+                		errorMsgInsertion.setFill(Color.GREEN);
+                else
                 	errorMsgInsertion.setFill(Color.RED);
             } else {
             	errorMsgInsertion.setFill(Color.RED);
