@@ -216,6 +216,8 @@ public class EmployerInterface {
         tableChoose.setOnAction((ActionEvent ev)-> { 
         	if(tableChoose.getValue() == "User Table") {
                 if(table == Utils.CAR_MANAGER) {	
+                	errorMsgDeletion.setText("");
+                	errorMsgInsertion.setText("");
                 	dxPanel.getChildren().removeAll(carPanel);
                 }
                 else if(table == Utils.FEEDBACK_TABLE) { 
@@ -246,6 +248,8 @@ public class EmployerInterface {
         	
         	else if(tableChoose.getValue() == "Feedback Table") {
         		if(table == Utils.CAR_MANAGER) {
+        			errorMsgDeletion.setText("");
+                	errorMsgInsertion.setText("");
         			dxPanel.getChildren().removeAll(carPanel);
         		}
         		else if(table == Utils.USER_TABLE) {
@@ -262,6 +266,8 @@ public class EmployerInterface {
         	
         	else if(tableChoose.getValue() == "Reservation Table") {
         		if(table == Utils.CAR_MANAGER) {
+        			errorMsgDeletion.setText("");
+                	errorMsgInsertion.setText("");
         			dxPanel.getChildren().removeAll(carPanel);
         		}
         		else if(table == Utils.USER_TABLE) {
@@ -282,6 +288,7 @@ public class EmployerInterface {
         
         // insert car
         insertButton.setOnAction((ActionEvent ev)-> {
+        	errorMsgDeletion.setText("");
         	// takes field from the form fields
             String loc = fieldLocation.getValue().toString();
             int seats = Integer.parseInt(fieldSeats.getValue().toString());
@@ -297,11 +304,13 @@ public class EmployerInterface {
                 if(outcome.equals("Success!")) {
                 	errorMsgInsertion.setFill(Color.GREEN);
                 	//Insert the new car also in the list used for the reservations filter
-                	filterReservation.getItems().add(car.getLicensePlate()); 
+                	filterReservation.getItems().add(car.getLicensePlate());
                     clearAll();
                 } 
-                if(outcome.contentEquals("Updated!")) 
+                else if(outcome.equals("Updated!")) {
                 		errorMsgInsertion.setFill(Color.GREEN);
+                		clearAll();
+                }
                 else
                 	errorMsgInsertion.setFill(Color.RED);
             } else {
@@ -315,6 +324,7 @@ public class EmployerInterface {
         });
         
         deleteButton.setOnAction((ActionEvent ev)-> {
+        	errorMsgInsertion.setText("");
         	selectedCar = null;
         	selectedCar = tableCar.getSelectionModel().getSelectedItem();
         	String outcome = "";
