@@ -156,8 +156,8 @@ public class LoginInterface {
     	// login
         login.setOnAction((ActionEvent ev)-> {
         	// takes values from the log form
-            loggedUser.setEmail(l_fieldEmail.getText());
-            loggedUser.setPassword(cryptPwd(l_fieldPwd.getText()));
+            loggedUser.setEmail(l_fieldEmail.getText().trim());
+            loggedUser.setPassword(cryptPwd(l_fieldPwd.getText().trim()));
             String selectedStatus = fieldStatus.getValue().toString();
             switch (selectedStatus) {
                 case "Customer":
@@ -183,13 +183,13 @@ public class LoginInterface {
         
         // registration
         submit.setOnAction((ActionEvent ev)-> {
-            User regUser = null;  
+            User regUser = null; 
             // takes values from reg form
             String selectedStatus = r_fieldStatus.getValue().toString();
             switch (selectedStatus) {
                 case "Customer":
-                    regUser = new User(r_fieldFiscalCode.getText(), r_fieldNickName.getText(), r_fieldName.getText(), r_fieldSurname.getText(), true,
-                                    r_fieldEmail.getText(),cryptPwd(r_fieldPwd.getText()));
+                    regUser = new User(r_fieldFiscalCode.getText().trim(), r_fieldNickName.getText().trim(), r_fieldName.getText().trim(), r_fieldSurname.getText().trim(), true,
+                                    r_fieldEmail.getText().trim(),cryptPwd(r_fieldPwd.getText().trim()));
                     System.out.println("Campi form: "+" fc:"+r_fieldFiscalCode.getText()+" nickn: "+r_fieldNickName.getText()+" name:"+r_fieldName.getText()+" surname: "+r_fieldSurname.getText()
                                     +" email: "+r_fieldEmail.getText()+" pwd: "+cryptPwd(r_fieldPwd.getText()));
                     break;
