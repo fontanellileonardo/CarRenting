@@ -10,8 +10,6 @@ The workgroup must design and implement a simple application connecting to a rel
 1. Define an interface for user interaction with all the functionalities of the application (the application must not be compiled each time for showing different functionalities).
 
 ## Documentation
-1. [Introduction](/docs/introduction.md)
-
 For more details regarding the project, you can consult the [official documentation.](/docs/documentation.pdf)
 
 ## Credits
