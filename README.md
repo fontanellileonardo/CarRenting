@@ -11,8 +11,8 @@ The workgroup must design and implement a simple application connecting to a rel
 
 ## Documentation
 1. [Introduction](/docs/introduction.md)
-1. [Design](/docs/design.md)
-1. [Implementation](/docs/implementation.md)
+
+For more details regarding the project, you can consult the [official documentation.](/docs/documentation.pdf)
 
 ## Credits
 D. Comola, E. Petrangeli, C. Aparo, L. Fontanelli
